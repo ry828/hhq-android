@@ -1,6 +1,7 @@
 package com.ntsoft.ihhq.controller.main;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ public class SettingFragment extends Fragment {
 
     RelativeLayout rlUpdateProfile, rlTerms, rlNotification, rlChangePassword;
     Switch aSwitchNotificaion;
+    Activity mActivity;
 
     public SettingFragment() {
         // Required empty public constructor
@@ -52,6 +54,7 @@ public class SettingFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
+        mActivity = getActivity();
         initUI(view);
         return view;
     }
@@ -79,6 +82,7 @@ public class SettingFragment extends Fragment {
             }
         });
         aSwitchNotificaion = (Switch)view.findViewById(R.id.switch_notification);
+        updateNotificationSwitch();
         aSwitchNotificaion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -95,7 +99,19 @@ public class SettingFragment extends Fragment {
         });
 
     }
+    void updateNotificationSwitch() {
+        if (Global.getInstance().me.is_enable_push == 1) {
+            aSwitchNotificaion.setChecked(true);
+        } else {
+            aSwitchNotificaion.setChecked(false);
+        }
+    }
     private void enableNotification(final boolean isEnable) {
+        if (!Utils.haveNetworkConnection(mActivity)) {
+            Utils.showToast(mActivity, "No internet connection");
+            return;
+        }
+
         Map<String, String> params = new HashMap<String, String>();
         params.put("enable", isEnable ? "1" : "0");
         CustomRequest customRequest = new CustomRequest(Request.Method.POST, API.ENABLE_NOTIFICATION, params,
@@ -105,6 +121,7 @@ public class SettingFragment extends Fragment {
                         Utils.hideProgress();
                         try {
                             Global.getInstance().me.is_enable_push = isEnable ? 1 : 0;
+                            updateNotificationSwitch();
                         }catch (Exception e) {
                             e.printStackTrace();
                         }

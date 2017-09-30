@@ -235,6 +235,11 @@ public class HomePaymentFragment extends Fragment {
         }
     }
     void doUploadReceipt() {
+        if (!Utils.haveNetworkConnection(mActivity)) {
+            Utils.showToast(mActivity, "No internet connection");
+            return;
+        }
+
         if (avatarPath.isEmpty()) {
             return;
         }
@@ -344,6 +349,11 @@ public class HomePaymentFragment extends Fragment {
         builder.show();
     }
     void createBill( int method) {
+        if (!Utils.haveNetworkConnection(mActivity)) {
+            Utils.showToast(mActivity, "No internet connection");
+            return;
+        }
+
         Utils.showProgress(mActivity);
         Map<String, String> params = new HashMap<String, String>();
         params.put("payment_id", String.valueOf(arrPayments.get(index).payment_id));
@@ -410,6 +420,11 @@ public class HomePaymentFragment extends Fragment {
         startActivity(browserIntent);
     }
     void checkBilling() {
+        if (!Utils.haveNetworkConnection(mActivity)) {
+            Utils.showToast(mActivity, "No internet connection");
+            return;
+        }
+
         Utils.showProgress(mActivity);
         Map<String, String> params = new HashMap<String, String>();
         final RequestQueue requestQueue = Volley.newRequestQueue(mActivity);
@@ -457,6 +472,11 @@ public class HomePaymentFragment extends Fragment {
         requestQueue.add(customRequest);
     }
     void getPayments() {
+        if (!Utils.haveNetworkConnection(mActivity)) {
+            Utils.showToast(mActivity, "No internet connection");
+            return;
+        }
+
         if (fileModel == null) {
             return;
         }

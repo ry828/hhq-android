@@ -125,6 +125,11 @@ public class HomeDocumentFragment extends Fragment {
         }
     }
     void getDocuments() {
+        if (!Utils.haveNetworkConnection(mActivity)) {
+            Utils.showToast(mActivity, "No internet connection");
+            return;
+        }
+
         if (fileModel == null) {
             return;
         }

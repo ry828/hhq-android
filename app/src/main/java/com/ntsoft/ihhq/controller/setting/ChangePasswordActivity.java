@@ -75,6 +75,11 @@ public class ChangePasswordActivity extends AppCompatActivity {
         });
     }
     void updatePassword() {
+        if (!Utils.haveNetworkConnection(this)) {
+            Utils.showToast(this, "No internet connection");
+            return;
+        }
+
         Utils.showProgress(this);
         Map<String, String> params = new HashMap<String, String>();
         params.put("current_password", Utils.getFromPreference(this, Constant.PASSWORD));

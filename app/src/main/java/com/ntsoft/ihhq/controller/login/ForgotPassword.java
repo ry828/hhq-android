@@ -92,6 +92,11 @@ public class ForgotPassword extends Fragment {
     }
 
     void sendEmail() {
+        if (!Utils.haveNetworkConnection(mActivity)) {
+            Utils.showToast(mActivity, "No internet connection");
+            return;
+        }
+
         Utils.showProgress(mActivity);
         Map<String, String> params = new HashMap<String, String>();
         params.put("email", etEmail.getText().toString());

@@ -111,6 +111,11 @@ public class ScanQRCodeFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
     void submitQRCode(String code) {
+        if (!Utils.haveNetworkConnection(mActivity)) {
+            Utils.showToast(mActivity, "No internet connection");
+            return;
+        }
+
         Utils.showProgress(mActivity);
         Map<String, String> params = new HashMap<String, String>();
         params.put("qr_code", code);
@@ -142,24 +147,8 @@ public class ScanQRCodeFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Utils.hideProgress();
-                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Toast.makeText(mActivity, "Network Timeout Error", Toast.LENGTH_LONG).show();
-                        } else if (error instanceof AuthFailureError) {
-                            //TODO
-                            Toast.makeText(mActivity, "Auth Failure Error", Toast.LENGTH_LONG).show();
-                        } else if (error instanceof ServerError) {
-                            //TODO
-                            Toast.makeText(mActivity, "Server Error", Toast.LENGTH_LONG).show();
-                        } else if (error instanceof NetworkError) {
-                            //TODO
-                            Toast.makeText(mActivity, "Network Error", Toast.LENGTH_LONG).show();
-                        } else if (error instanceof ParseError) {
-                            //TODO
-                            Toast.makeText(mActivity, "Parse Error", Toast.LENGTH_LONG).show();
-                        } else {
-                            //TODO
-                            Toast.makeText(mActivity, "Unknown Error", Toast.LENGTH_LONG).show();
-                        }
+                        Utils.showToast(mActivity, "qr code is not match");
+
                     }
                 }){
             @Override

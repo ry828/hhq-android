@@ -1,5 +1,6 @@
 package com.ntsoft.ihhq.controller.home;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -105,7 +106,8 @@ public class UploadNewDocumentActivity extends AppCompatActivity {
     void browseFile() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 //        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        String[] mimetypes = {"application/pdf", "application/msword", "application/vnd.ms-excel"};
+        intent.setType("application/*");
+        String[] mimetypes = {"application/pdf", "application/word", "application/vnd.ms-excel", "application/doc", "application/xls"};
         intent.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
 
@@ -119,6 +121,7 @@ public class UploadNewDocumentActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         }
     }
+    @SuppressLint("LongLogTag")
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -147,6 +150,11 @@ public class UploadNewDocumentActivity extends AppCompatActivity {
     }
 
     void uploadFile() {
+        if (!Utils.haveNetworkConnection(this)) {
+            Utils.showToast(this, "No internet connection");
+            return;
+        }
+
         Utils.showProgress(this);
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
         CustomMultipartRequest customMultipartRequest = new CustomMultipartRequest(API.UPLOAD_NEW_DOCUMENT,

@@ -93,6 +93,11 @@ public class HomeContactsFragment extends Fragment {
         }
     }
     void getContacts() {
+        if (!Utils.haveNetworkConnection(mActivity)) {
+            Utils.showToast(mActivity, "No internet connection");
+            return;
+        }
+
         if (fileModel == null) {
             return;
         }

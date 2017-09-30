@@ -121,6 +121,11 @@ public class LoginFragment extends Fragment {
         }
     }
     void doLogin() {
+        if (!Utils.haveNetworkConnection(mActivity)) {
+            Utils.showToast(mActivity, "No internet connection");
+            return;
+        }
+
         Utils.showProgress(mActivity);
         Map<String, String> params = new HashMap<String, String>();
         params.put(Constant.DEVICE_TOKEN, Utils.getFromPreference(mActivity, Constant.DEVICE_TOKEN));

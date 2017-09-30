@@ -139,6 +139,11 @@ public class CorrespondenceDetailActivity extends AppCompatActivity {
         });
     }
     private void getMessages() {
+        if (!Utils.haveNetworkConnection(this)) {
+            Utils.showToast(this, "No internet connection");
+            return;
+        }
+
         if (urlGetMessage.isEmpty()) {
             return;
         }
@@ -238,6 +243,11 @@ public class CorrespondenceDetailActivity extends AppCompatActivity {
         listView.smoothScrollByOffset(arrMessages.size() - 1);
     }
     private void sendMessage(String message, final String filePath) {
+        if (!Utils.haveNetworkConnection(this)) {
+            Utils.showToast(this, "No internet connection");
+            return;
+        }
+
         CustomMultipartRequest customMultipartRequest = new CustomMultipartRequest(urlPostMessage,
                 new Response.Listener<JSONObject>() {
                     @Override

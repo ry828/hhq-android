@@ -152,6 +152,10 @@ public class CorrespondenceActiveFragment extends Fragment {
         return api;
     }
     private void getAllCorrespondence() {
+        if (!Utils.haveNetworkConnection(mActivity)) {
+            Utils.showToast(mActivity, "No internet connection");
+            return;
+        }
         if (api.isEmpty()) {
             return;
         }

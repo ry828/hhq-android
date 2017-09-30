@@ -85,6 +85,11 @@ public class HomeUpdateFragment extends Fragment {
         progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
     }
     void getUpdates() {
+        if (!Utils.haveNetworkConnection(mActivity)) {
+            Utils.showToast(mActivity, "No internet connection");
+            return;
+        }
+
         if (fileModel == null) {
             return;
         }

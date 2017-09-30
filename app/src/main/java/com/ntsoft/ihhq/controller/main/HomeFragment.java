@@ -127,6 +127,11 @@ public class HomeFragment extends Fragment {
         });
     }
     private void getAllFiles() {
+        if (!Utils.haveNetworkConnection(mActivity)) {
+            Utils.showToast(mActivity, "No internet connection");
+            return;
+        }
+
         if (api.isEmpty()) {
             return;
         }

@@ -164,6 +164,10 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void update() {
+        if (!Utils.haveNetworkConnection(this)) {
+            Utils.showToast(this, "No internet connection");
+            return;
+        }
 
         Utils.showProgress(this);
         final RequestQueue requestQueue = Volley.newRequestQueue(this);

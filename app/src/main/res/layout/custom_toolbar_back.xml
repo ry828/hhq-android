@@ -41,7 +41,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dimen_16dp"
             android:background="@drawable/plus"
-            android:visibility="visible"/>
+            android:visibility="gone"/>
         <Button
             android:id="@+id/btn_done"
             android:layout_width="45dp"

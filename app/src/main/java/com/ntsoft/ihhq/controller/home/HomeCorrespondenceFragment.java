@@ -81,6 +81,11 @@ public class HomeCorrespondenceFragment extends Fragment {
         });
     }
     void getCorrespondences() {
+        if (!Utils.haveNetworkConnection(mActivity)) {
+            Utils.showToast(mActivity, "No internet connection");
+            return;
+        }
+
         if (fileModel == null) {
             return;
         }

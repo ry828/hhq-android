@@ -158,6 +158,11 @@ public class CreateNewCorrespondenceActivity extends AppCompatActivity {
         });
     }
     private void getAllFileRef() {
+        if (!Utils.haveNetworkConnection(this)) {
+            Utils.showToast(this, "No internet connection");
+            return;
+        }
+
         Utils.showProgress(this);
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest request = new JsonArrayRequest( API.GET_FILE_REFS, new Response.Listener<JSONArray>(){
@@ -209,6 +214,11 @@ public class CreateNewCorrespondenceActivity extends AppCompatActivity {
         requestQueue.add(request);
     }
     private void getAllCorrespondenceCategory() {
+        if (!Utils.haveNetworkConnection(this)) {
+            Utils.showToast(this, "No internet connection");
+            return;
+        }
+
         Utils.showProgress(this);
         JsonArrayRequest request = new JsonArrayRequest( API.GET_TICKET_CATEGORY, new Response.Listener<JSONArray>(){
             @Override
@@ -249,6 +259,11 @@ public class CreateNewCorrespondenceActivity extends AppCompatActivity {
         requestQueue.add(request);
     }
     private void submitCorrespondence() {
+        if (!Utils.haveNetworkConnection(this)) {
+            Utils.showToast(this, "No internet connection");
+            return;
+        }
+
         Utils.showProgress(this);
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
         CustomMultipartRequest customMultipartRequest = new CustomMultipartRequest(API.CREAT_NEW_TICKET,
@@ -420,8 +435,8 @@ public class CreateNewCorrespondenceActivity extends AppCompatActivity {
     void browseFile() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 //        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.setType("*/*");
-        String[] mimetypes = {"application/pdf", "application/doc", "application/xls"};
+        intent.setType("application/*");
+        String[] mimetypes = {"application/pdf", "application/word", "application/vnd.ms-excel", "application/doc", "application/xls"};
         intent.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
 

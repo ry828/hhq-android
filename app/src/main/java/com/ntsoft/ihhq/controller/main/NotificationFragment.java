@@ -93,6 +93,11 @@ public class NotificationFragment extends Fragment {
         });
     }
     private void getAllNotifications() {
+        if (!Utils.haveNetworkConnection(mActivity)) {
+            Utils.showToast(mActivity, "No internet connection");
+            return;
+        }
+
         if (api.isEmpty()) {
             return;
         }
